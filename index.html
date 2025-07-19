@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>University Student Portal</title>
+    
+    <!-- Early error suppression for browser extensions -->
+    <script>
+      // Suppress MetaMask and other browser extension errors immediately
+      (function() {
+        const ignoredErrors = ['metamask', 'ethereum', 'web3', 'crypto', 'wallet', 'coinbase'];
+        
+        // Global error handler
+        window.addEventListener('error', function(event) {
+          const message = (event.message || '').toLowerCase();
+          if (ignoredErrors.some(keyword => message.includes(keyword))) {
+            event.preventDefault();
+            event.stopPropagation();
+            console.debug('🔇 Suppressed browser extension error:', event.message);
+            return false;
+          }
+        }, true);
+        
+        // Promise rejection handler
+        window.addEventListener('unhandledrejection', function(event) {
+          const reason = event.reason;
+          let message = '';
+          
+          if (typeof reason === 'string') {
+            message = reason.toLowerCase();
+          } else if (reason && reason.message) {
+            message = reason.message.toLowerCase();
+          } else if (reason && reason.toString) {
+            message = reason.toString().toLowerCase();
+          }
+          
+          if (ignoredErrors.some(keyword => message.includes(keyword))) {
+            event.preventDefault();
+            console.debug('🔇 Suppressed browser extension promise rejection:', reason);
+            return false;
+          }
+        }, true);
+        
+        console.info('🎓 University Student Portal - Early error suppression active');
+      })();
+    </script>
+    
+    <!-- CRITICAL: DO NOT REMOVE/MODIFY THIS COMMENT OR THE SCRIPT BELOW -->
+    <script src="https://blink.new/auto-engineer.js?projectId=university-student-portal-59bee5qr" type="module"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html> 
